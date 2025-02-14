@@ -318,23 +318,6 @@
         const tooltip = document.getElementById('tooltip');
         let touchTimeout;
 
-        document.querySelectorAll('.detail-item').forEach(item => {
-            item.addEventListener('touchstart', (e) => {
-                const info = item.getAttribute('data-info');
-                showTooltip(e, info);
-
-                clearTimeout(touchTimeout);
-
-                touchTimeout = setTimeout(() => {
-                    hideTooltip();
-                }, 1500);
-            });
-
-            item.addEventListener('touchmove', (e) => {
-                e.preventDefault();
-            });
-        });
-
         function showTooltip(e, text) {
             tooltip.textContent = text;
             tooltip.style.opacity = '1';
