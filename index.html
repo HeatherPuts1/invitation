@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @keyframes textReveal {
+            0% {
+                clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
+            }
+
+            100% {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+        }
+
+        @keyframes fadeUp {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            font-family: 'Helvetica', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        .invitation {
+            width: 90%;
+            max-width: 800px;
+            min-height: 90vh;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            animation: fadeUp 1.5s ease-out forwards;
+        }
+
+        .right-column {
+            order: 1;
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding-right: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left-column {
+            order: 2;
+            padding-left: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: none;
+        }
+
+        .maps-link {
+            display: inline-block;
+            width: fit-content;
+            padding: 1rem 2rem;
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+            text-decoration: none;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .maps-link:active {
+            background: white;
+            color: black;
+            transform: scale(0.98);
+        }
+
+        h1 {
+            font-size: 4em;
+            font-weight: 900;
+            line-height: 0.9;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            animation: textReveal 1s ease-out forwards;
+        }
+
+        .accent-text {
+            font-size: 1.2em;
+            font-style: italic;
+            color: #666;
+            margin: 1rem 0;
+            animation: fadeUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .details {
+            font-size: 1.1em;
+            line-height: 1.6;
+            animation: fadeUp 1s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        .detail-item {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            padding: 0.5rem 0;
+        }
+
+        .detail-item:active {
+            transform: scale(0.98);
+        }
+
+        .geometric-element {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: rotate(45deg);
+            z-index: -1;
+            transition: transform 0.3s ease;
+        }
+
+        .element-1 {
+            top: -50px;
+            right: -50px;
+        }
+
+        .element-2 {
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .date-display {
+            font-size: 5em;
+            font-weight: 100;
+            line-height: 0.8;
+            margin: 2rem 0;
+            animation: fadeUp 1s ease-out 0.7s forwards;
+            opacity: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .date-display:active {
+            transform: scale(0.98);
+        }
+
+        .tooltip {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .video-container {
+            width: 100%;
+            margin: 2rem 0;
+            overflow: hidden;
+            position: relative;
+            aspect-ratio: 16/9;
+            background: #000;
+            animation: fadeUp 1s ease-out 0.8s forwards;
+            opacity: 0;
+        }
+
+        .fashion-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .fashion-video:hover {
+            transform: scale(1.05);
+        }
+
+        .links a{
+            margin-right: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .invitation {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .right-column {
+                order: 1;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                padding-right: 0;
+                padding-bottom: 2rem;
+            }
+
+            .left-column {
+                order: 2;
+                padding-left: 0;
+                padding-top: 2rem;
+            }
+
+            h1 {
+                font-size: 3em;
+            }
+
+            .date-display {
+                font-size: 3.5em;
+            }
+
+            .geometric-element {
+                width: 150px;
+                height: 150px;
+            }
+
+            .video-container {
+                margin: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .date-display {
+                font-size: 3em;
+            }
+
+            .geometric-element {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tooltip" id="tooltip"></div>
+    <div class="invitation">
+        <div class="geometric-element element-1"></div>
+        <div class="geometric-element element-2"></div>
+
+        <div class="left-column">
+            <div class="date-display" data-info="Save the Date">29<br>MAR</div>
+            <div class="details">
+                <p class="detail-item" data-info="Exclusive Venue">HOUSE PARTY</p>
+                <p class="detail-item" data-info="Event Duration">8:00 PM UNTIL 2:00 AM</p>
+                <p class="detail-item" data-info="Location">MEANDER 100 SWALMEN</p>
+                <p class="detail-item" data-info="Evening Schedule">RUNWAY • DRINKS • MUSIC</p>
+            </div>
+            <div class="links">
+                <a class="detail-item" href="https://open.spotify.com/playlist/0u5Ulbwy4z5GfEPqbe4UdS?si=553f45995c8d40b1&pt=913941b2c99942fb6bdf2787eeda5316"><img src="images/spotify.png" width="40px"></a>
+                <a class="detail-item" href="https://www.lijstje.nl/heatherfrfr"><img src="images/gift-regular-132.png" width="40px"></a>
+            </div>
+            <div>
+                <a href="https://www.google.com/maps/search/?api=1&query=Meander+100+Swalmen" target="_blank"
+                    class="maps-link">GET DIRECTIONS
+                </a>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div>
+                <h1>RUNWAY<br>READY<br>23</h1>
+            </div>
+            <div class="video-container">
+                <video autoplay muted loop playsinline class="fashion-video">
+                    <source src="HAUTE COUTURE.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="details">
+                <p class="detail-item" data-info="Guest of Honor">HAUTE COUTURE</p>
+                <p class="detail-item" data-info="Theme of the Evening">BIRTHDAY 2025</p>
+                <p class="detail-item" data-info="Dress Code">RUNWAY READY</p>
+            </div>
+        </div>
+
+        <audio id="bg-music" loop>
+            <source src="aespa.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        const tooltip = document.getElementById('tooltip');
+        let touchTimeout;
+
+        document.querySelectorAll('.detail-item').forEach(item => {
+            item.addEventListener('touchstart', (e) => {
+                const info = item.getAttribute('data-info');
+                showTooltip(e, info);
+
+                clearTimeout(touchTimeout);
+
+                touchTimeout = setTimeout(() => {
+                    hideTooltip();
+                }, 1500);
+            });
+
+            item.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+            });
+        });
+
+        function showTooltip(e, text) {
+            tooltip.textContent = text;
+            tooltip.style.opacity = '1';
+
+            const rect = e.target.getBoundingClientRect();
+            tooltip.style.top = `${rect.top - 40}px`;
+            tooltip.style.left = `${rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)}px`;
+        }
+
+        function hideTooltip() {
+            tooltip.style.opacity = '0';
+        }
+
+        document.querySelectorAll('.geometric-element').forEach(element => {
+            element.addEventListener('touchstart', () => {
+                element.style.transform = 'rotate(45deg) scale(1.1)';
+            });
+
+            element.addEventListener('touchend', () => {
+                element.style.transform = 'rotate(45deg)';
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const audio = document.getElementById("bg-music");
+            const playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Autoplay blocked. User interaction needed.");
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
